@@ -1,12 +1,13 @@
 {
-  "name": "weather-agent",
+  "name": "mastra-cloud-agent",
   "version": "1.0.0",
   "main": "index.js",
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "mastra dev",
-    "build": "mastra build"
+    "build": "mastra build",
+    "deploy": "mastra build && wrangler deploy"
   },
   "keywords": [],
   "author": "",
@@ -15,16 +16,19 @@
   "type": "module",
   "dependencies": {
     "@mastra/core": "latest",
+    "@mastra/deployer-cloudflare": "^0.14.22",
     "@mastra/evals": "latest",
-    "@mastra/loggers": "latest",
     "@mastra/libsql": "latest",
+    "@mastra/loggers": "latest",
     "@mastra/memory": "latest",
     "difflib": "0.2.4",
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251121.0",
     "@types/node": "^22.15.29",
     "mastra": "latest",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "wrangler": "^4.50.0"
   }
 }

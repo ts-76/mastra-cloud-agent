@@ -1,19 +1,21 @@
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
+import { CloudflareDeployer } from '@mastra/deployer-cloudflare';
+
 import { LibSQLStore } from '@mastra/libsql';
-import { weatherWorkflow } from './workflows';
-import { weatherAgent } from './agents';
-import { toolCallAppropriatenessScorer, completenessScorer, translationScorer } from './scorers';
+import { newsWorkflow } from './workflows/newsWorkflow';
+import { researchAgent } from './agents/researchAgent';
+import { searchTool } from './tools/searchTool';
+import { emailTool } from './tools/emailTool';
 
 export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent },
-  storage: new LibSQLStore({ url: ':memory:' }),
-  scorers: {
-    toolCallAppropriatenessScorer,
-    completenessScorer,
-    translationScorer,
+  workflows: {
+    newsWorkflow,
   },
+  agents: {
+    researchAgent,
+  },
+  storage: new LibSQLStore({ url: ':memory:' }),
   logger: new PinoLogger({
     name: 'Mastra',
     level: 'info',
@@ -25,5 +27,11 @@ export const mastra = new Mastra({
   },
   bundler: {
     externals: ['difflib'],
-  }
+  },
+  deployer: new CloudflareDeployer({
+    projectName: 'mastra-ai-news',
+    env: {
+      NODE_ENV: 'production',
+    },
+  }),
 });
